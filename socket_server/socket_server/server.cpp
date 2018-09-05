@@ -26,14 +26,14 @@ int main(int argc, char* argv[]) //定义参数个数，与参数数组
 	sockaddr_in sin; //对IP网络地址信息存储
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(8888); //htons从本机字节顺序转换为网络字节顺序
-	sin.sin_addr.S_un.S_addr = INADDR_ANY;
+	sin.sin_addr.S_un.S_addr = INADDR_ANY; //填入本地地址，INADDR_ANY指定地址为0.0.0.0;如果指定ip地址为通配地址(INADDR_ANY)，那么内核将等到套接字已连接(TCP)或已在套接字上发出数据报时才选择一个本地IP地址。
 	if (bind(slisten, (LPSOCKADDR)&sin, sizeof(sin)) == SOCKET_ERROR)
 	{
 		printf("bind error !");
 	}
 
 	//开始监听  
-	if (listen(slisten, 5) == SOCKET_ERROR)
+	if (listen(slisten, 5) == SOCKET_ERROR) //设置最大连接个数为5，默认为20
 	{
 		printf("listen error !");
 		return 0;
@@ -65,11 +65,11 @@ int main(int argc, char* argv[]) //定义参数个数，与参数数组
 
 		//发送数据  
 		const char * sendData = "你好，TCP客户端！\n";
-		send(sClient, sendData, strlen(sendData), 0);
-		closesocket(sClient);
+		send(sClient, sendData, strlen(sendData), 0); //flags设置为0，与write()类似
+		closesocket(sClient);  
 	}
 
-	closesocket(slisten);
-	WSACleanup();
+	closesocket(slisten); //关闭套接字
+	WSACleanup();  //关闭加载的套接字库
 	return 0;
 }

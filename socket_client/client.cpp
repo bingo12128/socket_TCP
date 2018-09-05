@@ -25,6 +25,8 @@ int main()
 		serAddr.sin_family = AF_INET;
 		serAddr.sin_port = htons(8888);
 		serAddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+		//inet_addr 将字符串形式的IP地址转换为网络字节序的整型值
+		//inet_ntoa 将网络字节序的整型值转换为字符串形式的IP地址
 		if (connect(sclient, (sockaddr *)&serAddr, sizeof(serAddr)) == SOCKET_ERROR)
 		{  //连接失败 
 			printf("connect error !");
@@ -44,7 +46,7 @@ int main()
 		//成功则返回实际传送出去的字符数，失败返回-1，错误原因存于error 
 
 		char recData[255];
-		int ret = recv(sclient, recData, 255, 0);
+		int ret = recv(sclient, recData, 255, 0); //flags设为0，read； ret表示读取的数据大小
 		if (ret>0){
 			recData[ret] = 0x00;
 			printf(recData);
