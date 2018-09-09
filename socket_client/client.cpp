@@ -23,7 +23,7 @@ int main()
 
 		sockaddr_in serAddr;
 		serAddr.sin_family = AF_INET;
-		serAddr.sin_port = htons(8888);
+		serAddr.sin_port = htons(8080);
 		serAddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
 		//inet_addr 将字符串形式的IP地址转换为网络字节序的整型值
 		//inet_ntoa 将网络字节序的整型值转换为字符串形式的IP地址

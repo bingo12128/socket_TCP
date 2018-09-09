@@ -1,8 +1,8 @@
 #include <stdio.h>  
-#include <winsock2.h>  
+#include <winsock2.h>  //winsock头文件，包含各种socket函数
 
 #pragma comment(lib,"ws2_32.lib") //将一个库文件链接到目标文件中，将ws2_32.lib库文件加入到本工程中  
-
+                                  //ws2_32.lib对应ws2_32.dll，提供对bind、accept等相关API的支持
 int main(int argc, char* argv[]) //定义参数个数，与参数数组
 {
 	//初始化WSA  
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) //定义参数个数，与参数数组
 	//绑定IP和端口  
 	sockaddr_in sin; //对IP网络地址信息存储
 	sin.sin_family = AF_INET;
-	sin.sin_port = htons(8888); //htons从本机字节顺序转换为网络字节顺序
+	sin.sin_port = htons(8080); //htons从本机字节顺序转换为网络字节顺序
 	sin.sin_addr.S_un.S_addr = INADDR_ANY; //填入本地地址，INADDR_ANY指定地址为0.0.0.0;如果指定ip地址为通配地址(INADDR_ANY)，那么内核将等到套接字已连接(TCP)或已在套接字上发出数据报时才选择一个本地IP地址。
 	if (bind(slisten, (LPSOCKADDR)&sin, sizeof(sin)) == SOCKET_ERROR)
 	{
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) //定义参数个数，与参数数组
 			printf("accept error !");
 			continue;
 		}
-		printf("接受到一个连接：%s \r\n", inet_ntoa(remoteAddr.sin_addr));
+		printf("接受到一个连接：%s \r\n", inet_ntoa(remoteAddr.sin_addr)); //将一个十进制网络字节序转换为点分十进制IP格式的字符串。
 
 		//接收数据  
 		int ret = recv(sClient, revData, 255, 0);
